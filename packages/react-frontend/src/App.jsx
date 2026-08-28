@@ -18,7 +18,7 @@ function App() {
         <div>
           <h1>Get started</h1>
           <p>
-            Hello CSC 3100 Student
+            Hello CSC 3100 Student - Kaito Pangelinan
           </p>
         </div>
         <button
