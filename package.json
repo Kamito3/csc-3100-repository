@@ -6,11 +6,13 @@
   "author": "",
   "type": "commonjs",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  }
-  ,
+"scripts": {
+  "test": "echo \"Error: no test specified\" && exit 1",
+  "start": "npm --prefix packages/react-frontend run dev"
+},
 "workspaces": [
   "packages/*"
 ]
 }
+
+
