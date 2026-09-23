@@ -46,12 +46,26 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
+const findUserByJob = (job) => {
+  return users["users_list"].filter((user) => user["job"] === job);
+};
+
+const findUserByNameAndJob = (name, job) => {
+  return users["users_list"].filter(
+    (user) => user["name"] === name && user["job"] === job,
+  );
+};
+
 app.get("/users", (req, res) => {
   const name = req.query.name;
-  if (name != undefined) {
-    let result = findUserByName(name);
-    result = { users_list: result };
-    res.send(result);
+  const job = req.query.job;
+
+  if (name != undefined && job != undefined) {
+    res.send({ users_list: findUserByNameAndJob(name, job) });
+  } else if (name != undefined) {
+    res.send({ users_list: findUserByName(name) });
+  } else if (job != undefined) {
+    res.send({ users_list: findUserByJob(job) });
   } else {
     res.send(users);
   }
@@ -63,6 +77,18 @@ app.get("/users/:id", (req, res) => {
   if (result === undefined) {
     res.status(404).send("Resource not found.");
   } else {
+    res.send(result);
+  }
+});
+
+app.delete("/users/:id", (req, res) => {
+  const id = req.params["id"]; //or req.params.id
+  let result = findUserById(id);
+  const index = users.users_list.findIndex((user) => user.id === id);
+  if (result === undefined) {
+    res.status(404).send("Resource not found.");
+  } else {
+    users.users_list.splice(index, 1);
     res.send(result);
   }
 });
