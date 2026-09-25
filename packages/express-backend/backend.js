@@ -91,19 +91,25 @@ app.delete("/users/:id", (req, res) => {
     res.status(404).send("Resource not found.");
   } else {
     users.users_list.splice(index, 1);
-    res.send(result);
+    //res.send(result); replace with below
+    res.status(204).send(); // 204 no content on successful delete
   }
 });
+
+// #2 - server-side random id generator
+const generateId = () => Math.random().toString(36).slice(2, 9);
 
 const addUser = (user) => {
   users["users_list"].push(user);
   return user;
 };
 
+
 app.post("/users", (req, res) => {
   const userToAdd = req.body;
+  userToAdd.id = generateId(); // server assigns the id
   addUser(userToAdd);
-  res.send();
+  res.status(201).send(userToAdd); // 201 created + return new object
 });
 
 app.listen(port, () => {
